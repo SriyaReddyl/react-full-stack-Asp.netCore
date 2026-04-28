@@ -12,8 +12,7 @@ Thumbs.db
 .env.*
 appsettings.Development.json
 appsettings.Local.json
-
-# appsettings.json   # uncomment if it contains secrets
+appsettings.json
 
 # React (Frontend)
 
