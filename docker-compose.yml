@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+
+  backend:
+    build:
+      context: ./Backend/Backend
+    container_name: backend_api
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  frontend:
+    build:
+      context: ./react-frontend
+    container_name: frontend_app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
