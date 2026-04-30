@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using Backend.DataAccess;
 using Backend.DataAccess.Abstruct;
@@ -29,17 +29,25 @@ namespace Backend
                 Configuration.GetSection("AppSettings:Token").Value
             );
 
-            // PostgreSQL DbContext (FIXED)
+            // PostgreSQL DbContext
             services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DataDBConnection")
                 )
             );
 
-            // CORS (required since you are using AllowAnyOrigin + Credentials before)
-            services.AddCors();
+            // ✅ FIXED CORS (proper policy)
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
 
-            // Controllers (replaces AddMvc)
+            // Controllers
             services.AddControllers();
 
             // Dependency Injection
@@ -69,12 +77,8 @@ namespace Backend
 
             app.UseRouting();
 
-            // CORS middleware
-            app.UseCors(x =>
-                x.AllowAnyHeader()
-                 .AllowAnyMethod()
-                 .AllowAnyOrigin()
-            );
+            // ✅ FIXED CORS usage (must match policy name)
+            app.UseCors("AllowAll");
 
             app.UseAuthentication();
             app.UseAuthorization();
