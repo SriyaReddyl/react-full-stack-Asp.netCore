@@ -149,4 +149,4 @@ Password: admin1234
 ## 👨‍💻 Author
 
 Sriya
-sriyal2003@gmail.com
+sriyaldevops@gmail.com
